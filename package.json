@@ -1,0 +1,21 @@
+{
+  "name": "url-fi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyunjiLeeTech/URL-FI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyunjiLeeTech/URL-FI/issues"
+  },
+  "homepage": "https://github.com/hyunjiLeeTech/URL-FI#readme"
+}
