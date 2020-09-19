@@ -4,7 +4,7 @@ var request = require("request");
 var colors = require("colors");
 
 if (process.argv.length === 2) {
-    console.log("Usage: url-fi FILENAME")
+    console.log("Usage: url-fi [FILENAME]")
     process.exit(1)
 } else {
     var fs = require("fs");
