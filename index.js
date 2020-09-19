@@ -34,7 +34,7 @@ async function urlValidate(url) {
         } else if (!err && res.statusCode == 400) {
             console.log(colors.red(`[FAILED] [400] ${url}`));
         } else {
-            console.log(colors.yellow(`[UNKNOWN] ${url}`))
+            console.log(colors.grey(`[UNKNOWN] ${url}`))
         }
     }
     )
