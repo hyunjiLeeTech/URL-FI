@@ -2,9 +2,6 @@
 
 var request = require("request");
 
-console.log("Hello, here is my first CLI tool")
-console.log(process.argv.length)
-
 if (process.argv.length === 2) {
     console.log("Usage: url-fi FILENAME")
     process.exit(1)
@@ -22,6 +19,7 @@ if (process.argv.length === 2) {
     })
 }
 
+
 async function checkUrl(url) {
     await urlValidate(url);
 }
@@ -29,13 +27,13 @@ async function checkUrl(url) {
 async function urlValidate(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (!err && res.statusCode == 200) {
-            console.log("[PASS] [200] " + url);
+            console.log("[PASSED] [200] " + url);
         } else if (!err && res.statusCode == 404) {
-            console.log("[DEAD] [404] " + url);
+            console.log("[FAILED] [404] " + url);
         } else if (!err && res.statusCode == 400) {
-            console.log("[DEAD] [400] " + url);
+            console.log("[FAILED] [400] " + url);
         } else {
-            console.log("[UNKOWN] " + url)
+            console.log("[UNKNOWN] " + url)
         }
     }
     )
