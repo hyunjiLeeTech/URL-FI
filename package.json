@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/hyunjiLeeTech/URL-FI#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "request": "^2.88.2"
   }
 }

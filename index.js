@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var request = require("request");
+var colors = require("colors");
 
 if (process.argv.length === 2) {
     console.log("Usage: url-fi FILENAME")
@@ -27,13 +28,13 @@ async function checkUrl(url) {
 async function urlValidate(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (!err && res.statusCode == 200) {
-            console.log("[PASSED] [200] " + url);
+            console.log(colors.green(`[PASSED] [200] ${url}`));
         } else if (!err && res.statusCode == 404) {
-            console.log("[FAILED] [404] " + url);
+            console.log(colors.red(`[FAILED] [404] ${url}`));
         } else if (!err && res.statusCode == 400) {
-            console.log("[FAILED] [400] " + url);
+            console.log(colors.red(`[FAILED] [400] ${url}`));
         } else {
-            console.log("[UNKNOWN] " + url)
+            console.log(colors.yellow(`[UNKNOWN] ${url}`))
         }
     }
     )
