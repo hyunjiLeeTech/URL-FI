@@ -9,15 +9,22 @@ if (process.argv.length === 2) {
 } else {
     var fs = require("fs");
     var filename = process.argv[2];
+
     fs.readFile(filename, 'utf8', function (err, data) {
         if (err) throw err;
         let regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
         var links = data.match(regex);
         for (var i = 0; i < links.length; i = i + 2) {
             var link = links[i];
-            checkUrl(link);
+            if (link.startsWith("https://")) {
+                checkUrl(link);
+            } else {
+                checkUrl(link);
+                checkUrl(link.replace(/^http/, "https"));
+            }
         }
     })
+
 }
 
 
