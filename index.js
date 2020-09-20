@@ -18,6 +18,7 @@ if (process.argv.length === 2) {
             var link = links[i];
             if (link.startsWith("https://")) {
                 checkUrl(link);
+                checkUrl(link.replace(/^https/, "http"));
             } else {
                 checkUrl(link);
                 checkUrl(link.replace(/^http/, "https"));
