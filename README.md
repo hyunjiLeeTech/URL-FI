@@ -16,4 +16,4 @@ This is a command-line tool for finding and reporting dead links (e.g., broken U
 
 ## Checks Both http:// and https://
 When the link starts with https://, this tool checks whether the link is broken or not if it changes to http://.
-Also, when the link starts with http://, this tool checks whether the lilnk is broken or not if the changes to https://.
+<br/>Also, when the link starts with http://, this tool checks whether the lilnk is broken or not if the changes to https://.
