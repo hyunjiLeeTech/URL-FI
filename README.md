@@ -8,7 +8,7 @@ This is a command-line tool for finding and reporting dead links (e.g., broken U
 3. Enter the command to start the tool. You need to mention the file name.
 
 ## Output Format - Color
-![output-colour](images/output-color.JPG)
+![output-colour](/images/output-color.JPG)
 This tool checks whether the link is broken or not. There are four status code it checks
 - 200: If the status code is 200, it means the link is good. It prints out the result with green color
 - 400 or 404: If the status code is 400 or 404, it means the link is brokn. If prints out the result with red color
