@@ -45,15 +45,19 @@ async function checkUrl(url) {
 
 async function urlValidate(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
-        if (!err && res.statusCode == 200) {
+        if (err) {
+            console.log(colors.red("ERROR: " + err))
+            process.exit(1);
+        }
+
+        if (res.statusCode == 200) {
             console.log(colors.green(`[PASSED] [200] ${url}`));
-        } else if (!err && res.statusCode == 404) {
+        } else if (res.statusCode == 404) {
             console.log(colors.red(`[FAILED] [404] ${url}`));
-        } else if (!err && res.statusCode == 400) {
+        } else if (res.statusCode == 400) {
             console.log(colors.red(`[FAILED] [400] ${url}`));
         } else {
             console.log(colors.grey(`[UNKNOWN] ${url}`))
         }
-    }
-    )
+    })
 }
