@@ -39,7 +39,7 @@ for (let i = 2; i < process.argv.length; i++) {
 }
 
 function checkUrl(url) {
-    request({ method: 'HEAD', uri: url }, function (err, res, body) {
+    request({ method: 'HEAD', uri: url, timeout: 1500 }, function (err, res, body) {
         if (err) {
             console.log(colors.red("ERROR: " + err))
             process.exit(1);
