@@ -38,7 +38,7 @@ for (let i = 2; i < process.argv.length; i++) {
     }
 }
 
-async function checkUrl(url) {
+function checkUrl(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
             console.log(colors.red("ERROR: " + err))
