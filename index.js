@@ -16,8 +16,8 @@ if (process.argv.length === 2) {
 // filename: checks broken links
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
-    if (arg.startsWith("--")) {
-        if (arg == "--v" || arg == "--version") {
+    if (arg.startsWith("-")) {
+        if (arg == "--v" || arg == "--version" || arg == "-v" || arg == "-version") {
             console.log("Tool Name: url-fi")
             console.log("Version: 0.1")
         }
