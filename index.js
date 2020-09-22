@@ -52,10 +52,8 @@ async function urlValidate(url) {
 
         if (res.statusCode == 200) {
             console.log(colors.green(`[PASSED] [200] ${url}`));
-        } else if (res.statusCode == 404) {
-            console.log(colors.red(`[FAILED] [404] ${url}`));
-        } else if (res.statusCode == 400) {
-            console.log(colors.red(`[FAILED] [400] ${url}`));
+        } else if (res.statusCode == 404 || res.statusCode == 400) {
+            console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
         } else {
             console.log(colors.grey(`[UNKNOWN] ${url}`))
         }
