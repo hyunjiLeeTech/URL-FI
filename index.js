@@ -40,10 +40,6 @@ if (process.argv.length === 2) {
 
 
 async function checkUrl(url) {
-    await urlValidate(url);
-}
-
-async function urlValidate(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
             console.log(colors.red("ERROR: " + err))
