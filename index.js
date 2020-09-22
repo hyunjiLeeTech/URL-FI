@@ -24,7 +24,7 @@ for (let i = 2; i < process.argv.length; i++) {
     } else {
         fs.readFile(arg, 'utf8', function (err, data) {
             if (err) {
-                console.log(colors.red("ERROR: " + err));
+                console.log(colors.red(err));
                 process.exit(1);
             }
             let links = data.match(regex);
@@ -49,7 +49,7 @@ for (let i = 2; i < process.argv.length; i++) {
 function checkUrl(url) {
     request({ method: 'HEAD', uri: url, timeout: 1500 }, function (err, res, body) {
         if (err) {
-            console.log(colors.red("ERROR: " + err))
+            console.log(colors.red(`${err} ${url}`));
             process.exit(1);
         }
 
