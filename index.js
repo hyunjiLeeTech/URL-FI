@@ -15,7 +15,8 @@ if (process.argv.length === 2) {
 // If user enter -s, the program checks both http:// and https://
 let sFlag = false;
 for (let i = 2; i < process.argv.length; i++) {
-    if (process.argv[i] == '-s') {
+    let arg = process.argv[i];
+    if (arg.startsWith('-') && arg.includes('s')) {
         sFlag = true;
     }
 }
