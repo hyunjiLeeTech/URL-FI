@@ -11,13 +11,25 @@ if (process.argv.length === 2) {
     process.exit(1)
 }
 
-// for option -s
+// for option -s, -h, and -v
 // If user enter -s, the program checks both http:// and https://
+// If user enter -h, the program prints out the usage of this tool
 let sFlag = false;
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
-    if (arg.startsWith('-') && arg.includes('s')) {
-        sFlag = true;
+    if (arg.startsWith('-')) {
+        if (arg.includes("s")) {
+            sFlag = true;
+        }
+
+        if (arg.includes("h")) {
+            console.log("Usage: url-fi [FILENAME]")
+        }
+
+        if (arg.includes("v")) {
+            console.log("Tool Name: url-fi")
+            console.log("Version: 0.1")
+        }
     }
 }
 
@@ -28,8 +40,7 @@ for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (arg.startsWith("-")) {
         if (arg == "--v" || arg == "--version" || arg == "-v" || arg == "-version") {
-            console.log("Tool Name: url-fi")
-            console.log("Version: 0.1")
+
         }
     } else {
         fs.readFile(arg, 'utf8', function (err, data) {
