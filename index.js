@@ -11,6 +11,14 @@ if (process.argv.length === 2) {
     process.exit(1)
 }
 
+let sFlag = false;
+
+for (let i = 2; i < process.argv.length; i++) {
+    if (process.argv[i] == '-s') {
+        sFlag = true;
+    }
+}
+
 // If the user enters any arguments/filenames, starts process.
 // --version or -v: prints tool name & version
 // filename: checks broken links
@@ -32,10 +40,14 @@ for (let i = 2; i < process.argv.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
                     checkUrl(link);
-                    checkUrl(link.replace(/^https/, "http"));
+                    if (sFlag) {
+                        checkUrl(link.replace(/^https/, "http"));
+                    }
                 } else {
                     checkUrl(link);
-                    checkUrl(link.replace(/^http/, "https"));
+                    if (sFlag) {
+                        checkUrl(link.replace(/^http/, "https"));
+                    }
                 }
             }
         })
@@ -47,7 +59,7 @@ for (let i = 2; i < process.argv.length; i++) {
 // - status code 400, 404: broken
 // - otherwise: unknown
 function checkUrl(url) {
-    request({ method: 'HEAD', uri: url, timeout: 1500 }, function (err, res, body) {
+    request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
             console.log(colors.red(`${err} ${url}`));
             //process.exit(1);
@@ -56,7 +68,7 @@ function checkUrl(url) {
         } else if (res.statusCode == 404 || res.statusCode == 400) {
             console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
         } else {
-            console.log(colors.grey(`[UNKNOWN] ${url}`))
+            console.log(colors.grey(`[UNKNOWN] [${res.statusCode}] ${url}`))
         }
     })
 }
