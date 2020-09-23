@@ -62,7 +62,7 @@ for (let i = 2; i < process.argv.length; i++) {
 function checkUrl(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
-            console.log(colors.red(`${err} ${url}`));
+            console.log(colors.yellow(`${err} ${url}`));
         } else if (res.statusCode == 200) {
             console.log(colors.green(`[PASSED] [200] ${url}`));
         } else if (res.statusCode == 404 || res.statusCode == 400) {
