@@ -50,10 +50,8 @@ function checkUrl(url) {
     request({ method: 'HEAD', uri: url, timeout: 1500 }, function (err, res, body) {
         if (err) {
             console.log(colors.red(`${err} ${url}`));
-            process.exit(1);
-        }
-
-        if (res.statusCode == 200) {
+            //process.exit(1);
+        } else if (res.statusCode == 200) {
             console.log(colors.green(`[PASSED] [200] ${url}`));
         } else if (res.statusCode == 404 || res.statusCode == 400) {
             console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
