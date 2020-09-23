@@ -11,8 +11,9 @@ if (process.argv.length === 2) {
     process.exit(1)
 }
 
+// for option -s
+// If user enter -s, the program checks both http:// and https://
 let sFlag = false;
-
 for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] == '-s') {
         sFlag = true;
@@ -62,7 +63,6 @@ function checkUrl(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
             console.log(colors.red(`${err} ${url}`));
-            //process.exit(1);
         } else if (res.statusCode == 200) {
             console.log(colors.green(`[PASSED] [200] ${url}`));
         } else if (res.statusCode == 404 || res.statusCode == 400) {
