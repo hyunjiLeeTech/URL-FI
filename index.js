@@ -7,7 +7,7 @@ const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6
 
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
-    console.log("Usage: url-fi [FILENAME]")
+    console.log("Usage: url-fi [options] [FILENAME]")
     process.exit(1)
 }
 
