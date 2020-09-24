@@ -38,11 +38,7 @@ for (let i = 2; i < process.argv.length; i++) {
 // filename: checks broken links
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
-    if (arg.startsWith("-")) {
-        if (arg == "--v" || arg == "--version" || arg == "-v" || arg == "-version") {
-
-        }
-    } else {
+    if (!arg.startsWith("-")) {
         fs.readFile(arg, 'utf8', function (err, data) {
             if (err) {
                 console.log(colors.red(err));
