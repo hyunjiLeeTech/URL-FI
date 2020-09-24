@@ -15,8 +15,8 @@ url-fi [OPTION] [FILENAME]
 ![output-colour](https://lh3.googleusercontent.com/TiBG8E-xrvK4UJYIPNoKwKuyzWbQbtnUvLC_cpaxeiyjO8037Qz0Mm0kO6K1iX49mekTtfx6tkp0ro6w2nX8H_C3hK8Njz8QIC6gC9uK8yUZQkaVQZVohdXrpCzVRbh82HKe5IiQOA)
 <br/>This tool checks whether the link is broken or not. There are four status code it checks
 - 200: If the status code is 200, it means the link is good. It prints out the result with green color
-- 400 or 404: If the status code is 400 or 404, it means the link is brokn. If prints out the result with red color
-- Else: If the status code is not among those numbers, it means it has an unknown issue with status code. It prints out the result with grey color
+- 400 or 404: If the status code is 400 or 404, it means the link is broken. If prints out the result with red color
+- Else: If the status code is not among those numbers, it means it has an unknown issue with status code. It prints out the result with a grey color
 
 ### Checks Both http:// and https:// (Argument -s)
 If you enter -s argument, this tool checks both http:// and https://
