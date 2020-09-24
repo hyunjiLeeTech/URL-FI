@@ -1,6 +1,6 @@
 # URL-FI
 
-This is a command-line tool for finding and reporting dead links (e.g., broken URLs) in a file. Users might use this tool to help locate broken URLs in an HTML page, text file, and so on.
+This is a command-line tool for finding and reporting dead links (e.g., broken URLs) in a file. Users might use this tool to help locate broken URLs in an HTML page, text file, and so on. This tool can handle multiple files at the same time.
 
 ## How to Set up the Tool
 1. Copy and paste the link into a terminal or visual studio code with the following command: git clone https://github.com/hyunjiLeeTech/URL-FI.git
@@ -24,7 +24,7 @@ When the link starts with https://, this tool checks whether the link is broken 
 <br/>Also, when the link starts with http://, this tool checks whether the lilnk is broken or not if the changes to https://.
 
 ### Helping option
-When you enter -s argument, this tool prints out the usage of this tool.
+When you enter -h argument, this tool prints out the usage of this tool.
 
 ## Argument
 ![output-arguments](https://lh3.googleusercontent.com/CqJJXYthdvGPTtH3aIgA3NHz6a0IU5OwrbrB8GKnzsA3mHRmXCAKXSoC0B8A32iGy5s1zC9BvsZbhoT4X1mcWlb_qYF8wWW8eMpuisw33vrkQuqyC6XSNxhdy6cp_KeNagykzfQuMQ)
