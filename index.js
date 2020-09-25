@@ -9,13 +9,13 @@ const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6
 if (process.argv.length === 2) {
     console.log("Usage: url-fi [argument(s)] [FILENAME]")
     console.log("-v: print the tool name and its version")
-    console.log("-s: check both http:// and https://")
+    console.log("-s: check whether http:// work using https://")
     console.log("-h: display the usage of this tool")
     process.exit(1)
 }
 
 // for option -s, -h, and -v
-// If user enter -s, the program checks both http:// and https://
+// If user enter -s, the program checks whether http:// actually work using https://
 // If user enter -h, the program prints out the usage of this tool
 let sFlag = false;
 for (let i = 2; i < process.argv.length; i++) {
@@ -52,9 +52,6 @@ for (let i = 2; i < process.argv.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
                     checkUrl(link);
-                    if (sFlag) {
-                        checkUrl(link.replace(/^https/, "http"));
-                    }
                 } else {
                     checkUrl(link);
                     if (sFlag) {

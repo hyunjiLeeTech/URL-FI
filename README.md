@@ -30,5 +30,5 @@ When you enter -h argument, this tool prints out the usage of this tool.
 ![output-arguments](https://lh3.googleusercontent.com/CqJJXYthdvGPTtH3aIgA3NHz6a0IU5OwrbrB8GKnzsA3mHRmXCAKXSoC0B8A32iGy5s1zC9BvsZbhoT4X1mcWlb_qYF8wWW8eMpuisw33vrkQuqyC6XSNxhdy6cp_KeNagykzfQuMQ)
 <br/> Multiple arguments can be used at the same time (ex. url-fi -vsh [FILENAME])
 <br/>1. -v: Running the tool with the v argument prints the name of the tool and its version
-2. -s: Running the tool with the s argument checks both http:// and https://
+2. -s: Running the tool with the s argument checks whether http:// urls actually work using https://
 3. -h: Running the tool with the h argument prints the usage of the tool
