@@ -7,7 +7,10 @@ const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6
 
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
-    console.log("Usage: url-fi [options] [FILENAME]")
+    console.log("Usage: url-fi [argument(s)] [FILENAME]")
+    console.log("-v: print the tool name and its version")
+    console.log("-s: check both http:// and https://")
+    console.log("-h: display the usage of this tool")
     process.exit(1)
 }
 
