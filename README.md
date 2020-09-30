@@ -32,3 +32,4 @@ When you enter -h argument, this tool prints out the usage of this tool.
 <br/>1. -v: Running the tool with the v argument prints the name of the tool and its version
 2. -s: Running the tool with the s argument checks whether http:// urls actually work using https://
 3. -h: Running the tool with the h argument prints the usage of the tool
+4. -r: Runnting the tool with the r argument check all the files in the given path and find wrong URL
