@@ -48,7 +48,7 @@ for (let i = 2; i < process.argv.length; i++) {
                 process.exit(1);
             }
             let links = data.match(regex);
-            for (let i = 0; i < links.length; i = i + 2) {
+            for (let i = 0; i < links.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
                     checkUrl(link);
