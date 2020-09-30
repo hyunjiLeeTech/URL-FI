@@ -5,12 +5,47 @@ const colors = require("colors");
 const fs = require("fs");
 const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
 
+function CliHelpMsg(){
+    console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
+    console.log("-v : print the tool name and its version")
+    console.log("-s : check whether http:// work using https://")
+    console.log("-h : display the usage of this tool")
+    console.log("-r : do the test for all files in the following directory")
+    console.log("\n----------------------------------------------------------")
+    console.log("-------------------------Example--------------------------\n")
+    console.log("Usage : url-fi -s [FILENAME]")
+    console.log("Usage : url-fi -r [DIRECTORY_PATH]")
+    console.log("\n----------------------------------------------------------")
+    console.log("----------------------------------------------------------")
+}
+
+function findFilesInDir(path){
+    let files = fs.readdirSync(path, { encoding: "utf-8",withFileTypes:true })
+    files = files.filter(file=>{
+        return !file.isDirectory()
+    });
+
+    files.map(file=>{
+        const content = fs.readFileSync(`${path}/${file.name}`, {encoding: "utf-8"})
+        let links = content.match(regex);
+        for (let i = 0; links && i < links.length; i++) {
+            let link = links[i];
+            if (link.startsWith("https://")) {
+                checkUrl(link);
+            } else {
+                checkUrl(link);
+                if (sFlag) {
+                    checkUrl(link.replace(/^http/, "https"));
+                }
+            }
+        }
+    })
+    
+}
+
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
-    console.log("Usage: url-fi [argument(s)] [FILENAME]")
-    console.log("-v: print the tool name and its version")
-    console.log("-s: check whether http:// work using https://")
-    console.log("-h: display the usage of this tool")
+    CliHelpMsg();
     process.exit(1)
 }
 
@@ -24,9 +59,11 @@ for (let i = 2; i < process.argv.length; i++) {
         if (arg.includes("s")) {
             sFlag = true;
         }
-
+        if (arg.includes("r")) {
+            findFilesInDir(process.argv[3])
+        }
         if (arg.includes("h")) {
-            console.log("Usage: url-fi [FILENAME]")
+            CliHelpMsg();
         }
 
         if (arg.includes("v")) {
@@ -36,30 +73,34 @@ for (let i = 2; i < process.argv.length; i++) {
     }
 }
 
+
 // If the user enters any arguments/filenames, starts process.
 // --version or -v: prints tool name & version
 // filename: checks broken links
-for (let i = 2; i < process.argv.length; i++) {
-    let arg = process.argv[i];
-    if (!arg.startsWith("-")) {
-        fs.readFile(arg, 'utf8', function (err, data) {
-            if (err) {
-                console.log(colors.red(err));
-                process.exit(1);
-            }
-            let links = data.match(regex);
-            for (let i = 0; i < links.length; i = i + 2) {
-                let link = links[i];
-                if (link.startsWith("https://")) {
-                    checkUrl(link);
-                } else {
-                    checkUrl(link);
-                    if (sFlag) {
-                        checkUrl(link.replace(/^http/, "https"));
+
+if(process.argv[2] === '-s'){
+    for (let i = 2; i < process.argv.length; i++) {
+        let arg = process.argv[i];
+        if (!arg.startsWith("-")) {
+            fs.readFile(arg, 'utf8', function (err, data) {
+                if (err) {
+                    console.log(colors.red(err));
+                    process.exit(1);
+                }
+                let links = data.match(regex);
+                for (let i = 0; i < links.length; i++) {
+                    let link = links[i];
+                    if (link.startsWith("https://")) {
+                        checkUrl(link);
+                    } else {
+                        checkUrl(link);
+                        if (sFlag) {
+                            checkUrl(link.replace(/^http/, "https"));
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 }
 
