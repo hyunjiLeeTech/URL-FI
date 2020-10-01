@@ -1,6 +1,7 @@
 # URL-FI
 
-This is a command-line tool for finding and reporting dead links (e.g., broken URLs) in a file. Users might use this tool to help locate broken URLs in an HTML page, text file, and so on. This tool can handle multiple files at the same time.
+This is a command-line tool for finding and reporting dead links (e.g., broken URLs) in a file. Users might use this tool to help locate broken URLs in an HTML page, text file, and so on. This tool can handle multiple files at the same time. You can provide path 
+instead of file name with option -r. 
 
 ## How to Set up the Tool
 1. Copy and paste the link into a terminal or visual studio code with the following command: git clone https://github.com/hyunjiLeeTech/URL-FI.git
@@ -23,6 +24,9 @@ If you enter -s argument, this tool checks both http:// and https://
 When the link starts with https://, this tool checks whether the link is broken or not if it changes to http://.
 <br/>Also, when the link starts with http://, this tool checks whether the lilnk is broken or not if the changes to https://.
 
+### Checks all the files in a directory path
+When you enter -r argument, this tool recursively map test all the files in the directory path (You must enter path not file name).
+
 ### Helping option
 When you enter -h argument, this tool prints out the usage of this tool.
 
@@ -30,6 +34,6 @@ When you enter -h argument, this tool prints out the usage of this tool.
 ![output-arguments](https://lh3.googleusercontent.com/CqJJXYthdvGPTtH3aIgA3NHz6a0IU5OwrbrB8GKnzsA3mHRmXCAKXSoC0B8A32iGy5s1zC9BvsZbhoT4X1mcWlb_qYF8wWW8eMpuisw33vrkQuqyC6XSNxhdy6cp_KeNagykzfQuMQ)
 <br/> Multiple arguments can be used at the same time (ex. url-fi -vsh [FILENAME])
 <br/>1. -v: Running the tool with the v argument prints the name of the tool and its version
-2. -s: Running the tool with the s argument checks whether http:// urls actually work using https://
-3. -h: Running the tool with the h argument prints the usage of the tool
-4. -r: Runnting the tool with the r argument check all the files in the given path and find wrong URL
+<br/>2. -s: Running the tool with the s argument checks whether http:// urls actually work using https://
+<br/>3. -h: Running the tool with the h argument prints the usage of the tool
+<br/>4. -r: Runnting the tool with the r argument check all the files in the given path and find wrong URL

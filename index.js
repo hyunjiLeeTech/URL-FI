@@ -19,28 +19,39 @@ function CliHelpMsg(){
     console.log("----------------------------------------------------------")
 }
 
+// -r option detail
+// Find all the files in the path
+// Map through the files and find wrong URL
 function findFilesInDir(path){
-    let files = fs.readdirSync(path, { encoding: "utf-8",withFileTypes:true })
-    files = files.filter(file=>{
-        return !file.isDirectory()
-    });
+    try {
+        let files = fs.readdirSync(path, { encoding: "utf-8",withFileTypes:true })
 
-    files.map(file=>{
-        const content = fs.readFileSync(`${path}/${file.name}`, {encoding: "utf-8"})
-        let links = content.match(regex);
-        for (let i = 0; links && i < links.length; i++) {
-            let link = links[i];
-            if (link.startsWith("https://")) {
-                checkUrl(link);
-            } else {
-                checkUrl(link);
-                if (sFlag) {
-                    checkUrl(link.replace(/^http/, "https"));
+        files = files.filter(file=>{
+            return !file.isDirectory()
+        });   
+
+        files.map(file=>{
+            try {
+                const content = fs.readFileSync(`${path}/${file.name}`, {encoding: "utf-8"})
+            } catch (error) {
+                console.log(colors.yellow(`${error}`));
+            }
+            let links = content.match(regex);
+            for (let i = 0; links && i < links.length; i++) {
+                let link = links[i];
+                if (link.startsWith("https://")) {
+                    checkUrl(link);
+                } else {
+                    checkUrl(link);
+                    if (sFlag) {
+                        checkUrl(link.replace(/^http/, "https"));
+                    }
                 }
             }
-        }
-    })
-    
+        })
+    } catch (error) {
+        console.log(colors.yellow(`${error}`));
+    }
 }
 
 // If the user doesn't enter any arguments/filenames, it exits the process
@@ -52,15 +63,14 @@ if (process.argv.length === 2) {
 // for option -s, -h, and -v
 // If user enter -s, the program checks whether http:// actually work using https://
 // If user enter -h, the program prints out the usage of this tool
+// If user enter -r, the program will run recursively all files in the give path
 let sFlag = false;
+let rFlag = false;
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (arg.startsWith('-')) {
         if (arg.includes("s")) {
             sFlag = true;
-        }
-        if (arg.includes("r")) {
-            findFilesInDir(process.argv[3])
         }
         if (arg.includes("h")) {
             CliHelpMsg();
@@ -70,6 +80,10 @@ for (let i = 2; i < process.argv.length; i++) {
             console.log("Tool Name: url-fi")
             console.log("Version: 0.1")
         }
+        if (arg.includes("r")) {
+            rFlag = true;
+            findFilesInDir(process.argv[3])
+        }
     }
 }
 
@@ -78,7 +92,7 @@ for (let i = 2; i < process.argv.length; i++) {
 // --version or -v: prints tool name & version
 // filename: checks broken links
 
-if(process.argv[2] === '-s'){
+if(!rFlag){
     for (let i = 2; i < process.argv.length; i++) {
         let arg = process.argv[i];
         if (!arg.startsWith("-")) {
