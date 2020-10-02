@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const request = require("request");
+const path = require("path");
 const colors = require("colors");
 const fs = require("fs");
 const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
@@ -42,7 +43,7 @@ for (let i = 2; i < process.argv.length; i++) {
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (!arg.startsWith("-")) {
-        fs.readFile(arg, 'utf8', function (err, data) {
+        fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
             if (err) {
                 console.log(colors.red(err));
                 process.exit(1);
