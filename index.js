@@ -34,17 +34,15 @@ for (let i = 2; i < process.argv.length; i++) {
       console.log("Tool Name: url-fi");
       console.log("Version: 0.1");
     }
-  }
-
-  if (checkFile(arg)) {
-    files.push(arg);
+  } else {
+    if (checkFile(arg)) files.push(arg);
   }
 }
 
 // Aggregates links from one or multiple files
 async function readArgFile() {
   try {
-    console.log(`${files.length} file/s found`);
+    console.log(colors.cyan(`${files.length} file/s found`));
     let data;
     for (let file of files) {
       data += await fs.readFile(file, "utf8");
@@ -58,19 +56,20 @@ async function readArgFile() {
 // If the user enters any arguments/filenames, starts process.
 // --version or -v: prints tool name & version
 // filename: checks broken links
-async function sendHeadRequests(data) {
-  let links = data.match(regex);
-  console.log(`${links.length} links collected`);
-  for (let i = 0; i < links.length; i++) {
-    let link = links[i];
-    if (link.startsWith("https://")) {
-      checkUrl(link);
-    } else {
-      checkUrl(link);
-      if (sFlag) {
-        checkUrl(link.replace(/^http/, "https"));
-      }
-    }
+async function sendHeadRequests(uList) {
+  let urlList = uList.toString();
+  urlList = urlList.match(regex);
+  console.log(colors.cyan(`${urlList.length} links collected`));
+
+  if (sFlag) {
+    urlList = urlList.map((links) => {
+      return links.replace(/^http/, "https");
+    });
+    console.log(colors.magenta("Testing http links with https"));
+  }
+
+  for (link of urlList) {
+    checkUrl(link);
   }
 }
 
