@@ -5,6 +5,7 @@ const path = require("path");
 const colors = require("colors");
 const fs = require("fs");
 const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+let exitFlag = true;
 
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
@@ -46,6 +47,7 @@ for (let i = 2; i < process.argv.length; i++) {
         fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
             if (err) {
                 console.log(colors.red(err));
+                exitFlag = false;
                 process.exit(1);
             }
             let links = data.match(regex);
@@ -64,6 +66,12 @@ for (let i = 2; i < process.argv.length; i++) {
     }
 }
 
+if (exitFlag) {
+    process.exit(0);
+} else {
+    process.exit(1);
+}
+
 // Checks the link is broken or not
 // - status code 200: good
 // - status code 400, 404: broken
@@ -71,12 +79,15 @@ for (let i = 2; i < process.argv.length; i++) {
 function checkUrl(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
+            exitFlag = false;
             console.log(colors.yellow(`${err} ${url}`));
         } else if (res.statusCode == 200) {
             console.log(colors.green(`[PASSED] [200] ${url}`));
         } else if (res.statusCode == 404 || res.statusCode == 400) {
+            exitFlag = false;
             console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
         } else {
+            exitFlag = false;
             console.log(colors.grey(`[UNKNOWN] [${res.statusCode}] ${url}`))
         }
     })
