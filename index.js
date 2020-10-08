@@ -4,7 +4,11 @@ const request = require("request");
 const path = require("path");
 const colors = require("colors");
 const fs = require("fs");
-const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+const linkRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+const goodRegex = /\-\-good/;
+const badRegex = /\-\-bad/;
+const allRegex = /\-\-all/;
+let statusFlag = 1; // 1: all, 2: good, 3: bad
 
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
@@ -35,6 +39,14 @@ for (let i = 2; i < process.argv.length; i++) {
             console.log("Version: 0.1")
         }
     }
+
+    if (arg.match(goodRegex)) {
+        statusFlag = 2;
+    } else if (arg.match(badRegex)) {
+        statusFlag = 3;
+    } else if (arg.match(allRegex)) {
+        statusFlag = 1;
+    }
 }
 
 // If the user enters any arguments/filenames, starts process.
@@ -48,7 +60,7 @@ for (let i = 2; i < process.argv.length; i++) {
                 console.log(colors.red(err));
                 process.exit(1);
             }
-            let links = data.match(regex);
+            let links = data.match(linkRegex);
             for (let i = 0; i < links.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
@@ -71,13 +83,21 @@ for (let i = 2; i < process.argv.length; i++) {
 function checkUrl(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
-            console.log(colors.yellow(`${err} ${url}`));
+            if (statusFlag != 2) {
+                console.log(colors.yellow(`${err} ${url}`));
+            }
         } else if (res.statusCode == 200) {
-            console.log(colors.green(`[PASSED] [200] ${url}`));
+            if (statusFlag != 3) {
+                console.log(colors.green(`[PASSED] [200] ${url}`));
+            }
         } else if (res.statusCode == 404 || res.statusCode == 400) {
-            console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
+            if (statusFlag != 2) {
+                console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
+            }
         } else {
-            console.log(colors.grey(`[UNKNOWN] [${res.statusCode}] ${url}`))
+            if (statusFlag != 2) {
+                console.log(colors.grey(`[UNKNOWN] [${res.statusCode}] ${url}`))
+            }
         }
     })
 }
