@@ -23,6 +23,9 @@ If you enter -s argument, this tool checks both http:// and https://
 When the link starts with https://, this tool checks whether the link is broken or not if it changes to http://.
 <br/>Also, when the link starts with http://, this tool checks whether the lilnk is broken or not if the changes to https://.
 
+### ignore URL pattern(s) using a text file (Argument -s)
+For example, if you write 'https://www.google.com" in the text file (ignore-urls.txt), then run the command $ tool-name --ignore ignore-urls.txt index.html. Your tool will check all URLs in index.html, but ignore the URLs in ignore-url.txt which is "https://www.google.com" in this case.
+
 ### Helping option
 When you enter -h argument, this tool prints out the usage of this tool.
 
