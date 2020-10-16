@@ -3,7 +3,7 @@
 const request = require("request");
 const colors = require("colors");
 const fs = require("fs");
-const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+const regex = /(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
 
 function CliHelpMsg(){
     console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
@@ -27,12 +27,13 @@ function findFilesInDir(path){
         let files = fs.readdirSync(path, { encoding: "utf-8",withFileTypes:true })
 
         files = files.filter(file=>{
-            return !file.isDirectory()
+            return !file.isDirectory() && !file.name.endsWith('.js')
         });   
 
         files.map(file=>{
+            let content = 0;
             try {
-                const content = fs.readFileSync(`${path}/${file.name}`, {encoding: "utf-8"})
+                content = fs.readFileSync(`${path}/${file.name}`, {encoding: "utf-8"})
             } catch (error) {
                 console.log(colors.yellow(`${error}`));
             }
@@ -102,6 +103,7 @@ if(!rFlag){
                     process.exit(1);
                 }
                 let links = data.match(regex);
+
                 for (let i = 0; i < links.length; i++) {
                     let link = links[i];
                     if (link.startsWith("https://")) {
