@@ -8,8 +8,9 @@ const linkRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]
 const goodRegex = /\-\-good/;
 const badRegex = /\-\-bad/;
 const allRegex = /\-\-all/;
-let exitFlag = true;
 let statusFlag = 1; // 1: all, 2: good, 3: bad
+
+process.exitCode = 0 // 0: all links are good & no error, 1: at least one link is bad or error
 
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
@@ -59,7 +60,7 @@ for (let i = 2; i < process.argv.length; i++) {
         fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
             if (err) {
                 console.log(colors.red(err));
-                exitFlag = false;
+                process.exitCode = 1;
                 process.exit(1);
             }
             let links = data.match(linkRegex);
@@ -78,12 +79,6 @@ for (let i = 2; i < process.argv.length; i++) {
     }
 }
 
-if (exitFlag) {
-    process.exit(0);
-} else {
-    process.exit(1);
-}
-
 // Checks the link is broken or not
 // - status code 200: good
 // - status code 400, 404: broken
@@ -91,7 +86,7 @@ if (exitFlag) {
 function checkUrl(url) {
     request({ method: 'HEAD', uri: url }, function (err, res, body) {
         if (err) {
-            exitFlag = false;
+            process.exitCode = 1;
             if (statusFlag != 2) {
                 console.log(colors.yellow(`${err} ${url}`));
             }
@@ -100,12 +95,12 @@ function checkUrl(url) {
                 console.log(colors.green(`[PASSED] [200] ${url}`));
             }
         } else if (res.statusCode == 404 || res.statusCode == 400) {
-            exitFlag = false;
+            process.exitCode = 1;
             if (statusFlag != 2) {
                 console.log(colors.red(`[FAILED] [${res.statusCode}] ${url}`));
             }
         } else {
-            exitFlag = false;
+            process.exitCode = 1;
             if (statusFlag != 2) {
                 console.log(colors.grey(`[UNKNOWN] [${res.statusCode}] ${url}`))
             }
