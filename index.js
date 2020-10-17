@@ -71,7 +71,8 @@ for (let i = 2; i < process.argv.length; i++) {
         array = data.split("\n");
         string = "";
         for(let i = 0; i < array.length; i++){
-            if(!array[i].startsWith("#")){
+
+            if(!array[i].trim().startsWith("#")){
                 string += array[i];
             }
         }
