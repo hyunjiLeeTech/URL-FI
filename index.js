@@ -25,6 +25,10 @@ if (process.argv.length === 2) {
 // If user enter -s, the program checks whether http:// actually work using https://
 // If user enter -h, the program prints out the usage of this tool
 let sFlag = false;
+let ignore = false;
+let ignoredLink = [];
+
+
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (arg.startsWith('-')) {
@@ -40,6 +44,10 @@ for (let i = 2; i < process.argv.length; i++) {
             console.log("Tool Name: url-fi")
             console.log("Version: 0.1")
         }
+
+        if (arg.includes("i")) {
+            ignore =  true;
+        }
     }
 
     if (arg.match(goodRegex)) {
@@ -49,6 +57,7 @@ for (let i = 2; i < process.argv.length; i++) {
     } else if (arg.match(allRegex)) {
         statusFlag = 1;
     }
+    
 }
 
 // If the user enters any arguments/filenames, starts process.
@@ -56,6 +65,29 @@ for (let i = 2; i < process.argv.length; i++) {
 // filename: checks broken links
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
+    if (ignore) {
+        arg = process.argv[++i];
+        data = fs.readFileSync(arg, 'utf8');
+        array = data.split("\n");
+        string = "";
+        for(let i = 0; i < array.length; i++){
+
+            if(!array[i].trim().startsWith("#")){
+                string += array[i];
+            }
+        }
+        ignoredLink = string.match(linkRegex);
+        if (ignoredLink == null){
+            console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
+            process.exitCode = 1;
+            process.exit(1);
+        } 
+        ignore = false; 
+        i++;
+    }
+
+    arg = process.argv[i];
+
     if (!arg.startsWith("-")) {
         fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
             if (err) {
@@ -64,6 +96,8 @@ for (let i = 2; i < process.argv.length; i++) {
                 process.exit(1);
             }
             let links = data.match(linkRegex);
+            //ignore the links
+            links = links.filter(val => !ignoredLink.includes(val));
             for (let i = 0; i < links.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
