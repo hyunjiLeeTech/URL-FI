@@ -67,19 +67,13 @@ for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (ignore) {
         arg = process.argv[++i];
-        fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
-            if (err) {
-                console.log(colors.red(err));
-                process.exitCode = 1;
-                process.exit(1);
-            }
-            ignoredLink = data.match(linkRegex);
-            if (ignoredLink == null){
-                console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
-                process.exitCode = 1;
-                process.exit(1);
-            } 
-        })
+        data = fs.readFileSync(arg, 'utf8');
+        ignoredLink = data.toString().match(linkRegex);
+        if (ignoredLink == null){
+            console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
+            process.exitCode = 1;
+            process.exit(1);
+        } 
         ignore = false; 
         i++;
     }
