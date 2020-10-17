@@ -68,7 +68,14 @@ for (let i = 2; i < process.argv.length; i++) {
     if (ignore) {
         arg = process.argv[++i];
         data = fs.readFileSync(arg, 'utf8');
-        ignoredLink = data.toString().match(linkRegex);
+        array = data.split("\n");
+        string = "";
+        for(let i = 0; i < array.length; i++){
+            if(!array[i].startsWith("#")){
+                string += array[i];
+            }
+        }
+        ignoredLink = string.match(linkRegex);
         if (ignoredLink == null){
             console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
             process.exitCode = 1;
@@ -89,9 +96,7 @@ for (let i = 2; i < process.argv.length; i++) {
             }
             let links = data.match(linkRegex);
             //ignore the links
-            links = links.filter(function(url){
-                return ignoredLink.indexOf(url) == -1;
-            })
+            links = links.filter(val => !ignoredLink.includes(val));
             for (let i = 0; i < links.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
