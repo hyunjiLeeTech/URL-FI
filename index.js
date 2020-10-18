@@ -4,7 +4,7 @@ const request = require("request");
 const path = require("path");
 const colors = require("colors");
 const fs = require("fs");
-const linkRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+const linkRegex = /(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
 const goodRegex = /\-\-good/;
 const badRegex = /\-\-bad/;
 const allRegex = /\-\-all/;
@@ -12,93 +12,40 @@ let statusFlag = 1; // 1: all, 2: good, 3: bad
 
 process.exitCode = 0 // 0: all links are good & no error, 1: at least one link is bad or error
 
-// If the user doesn't enter any arguments/filenames, it exits the process
-if (process.argv.length === 2) {
-    console.log("Usage: url-fi [argument(s)] [FILENAME]")
-    console.log("-v: print the tool name and its version")
-    console.log("-s: check whether http:// work using https://")
-    console.log("-h: display the usage of this tool")
-    process.exit(1)
+function CliHelpMsg() {
+    console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
+    console.log("-v : print the tool name and its version")
+    console.log("-s : check whether http:// work using https://")
+    console.log("-h : display the usage of this tool")
+    console.log("-r : do the test for all files in the following directory")
+    console.log("\n----------------------------------------------------------")
+    console.log("-------------------------Example--------------------------\n")
+    console.log("Usage : url-fi -s [FILENAME]")
+    console.log("Usage : url-fi -r [DIRECTORY_PATH]")
+    console.log("\n----------------------------------------------------------")
+    console.log("----------------------------------------------------------")
 }
 
-// for option -s, -h, and -v
-// If user enter -s, the program checks whether http:// actually work using https://
-// If user enter -h, the program prints out the usage of this tool
-let sFlag = false;
-let ignore = false;
-let ignoredLink = [];
+// -r option detail
+// Find all the files in the path
+// Map through the files and find wrong URL
+function findFilesInDir(path) {
+    try {
+        let files = fs.readdirSync(path, { encoding: "utf-8", withFileTypes: true })
 
+        files = files.filter(file => {
+            return !file.isDirectory() && !file.name.endsWith('.js')
+        });
 
-for (let i = 2; i < process.argv.length; i++) {
-    let arg = process.argv[i];
-    if (arg.startsWith('-')) {
-        if (arg.includes("s")) {
-            sFlag = true;
-        }
-
-        if (arg.includes("h")) {
-            console.log("Usage: url-fi [FILENAME]")
-        }
-
-        if (arg.includes("v")) {
-            console.log("Tool Name: url-fi")
-            console.log("Version: 0.1")
-        }
-
-        if (arg.includes("i")) {
-            ignore =  true;
-        }
-    }
-
-    if (arg.match(goodRegex)) {
-        statusFlag = 2;
-    } else if (arg.match(badRegex)) {
-        statusFlag = 3;
-    } else if (arg.match(allRegex)) {
-        statusFlag = 1;
-    }
-    
-}
-
-// If the user enters any arguments/filenames, starts process.
-// --version or -v: prints tool name & version
-// filename: checks broken links
-for (let i = 2; i < process.argv.length; i++) {
-    let arg = process.argv[i];
-    if (ignore) {
-        arg = process.argv[++i];
-        data = fs.readFileSync(arg, 'utf8');
-        array = data.split("\n");
-        string = "";
-        for(let i = 0; i < array.length; i++){
-
-            if(!array[i].trim().startsWith("#")){
-                string += array[i];
+        files.map(file => {
+            let content = 0;
+            try {
+                content = fs.readFileSync(`${path}/${file.name}`, { encoding: "utf-8" })
+            } catch (error) {
+                console.log(colors.yellow(`${error}`));
             }
-        }
-        ignoredLink = string.match(linkRegex);
-        if (ignoredLink == null){
-            console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
-            process.exitCode = 1;
-            process.exit(1);
-        } 
-        ignore = false; 
-        i++;
-    }
-
-    arg = process.argv[i];
-
-    if (!arg.startsWith("-")) {
-        fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
-            if (err) {
-                console.log(colors.red(err));
-                process.exitCode = 1;
-                process.exit(1);
-            }
-            let links = data.match(linkRegex);
-            //ignore the links
-            links = links.filter(val => !ignoredLink.includes(val));
-            for (let i = 0; i < links.length; i++) {
+            let links = content.match(linkRegex);
+            for (let i = 0; links && i < links.length; i++) {
                 let link = links[i];
                 if (link.startsWith("https://")) {
                     checkUrl(link);
@@ -110,6 +57,115 @@ for (let i = 2; i < process.argv.length; i++) {
                 }
             }
         })
+    } catch (error) {
+        console.log(colors.yellow(`${error}`));
+    }
+}
+
+// If the user doesn't enter any arguments/filenames, it exits the process
+if (process.argv.length === 2) {
+    CliHelpMsg();
+    process.exit(1)
+}
+
+// for option -s, -h, and -v
+// If user enter -s, the program checks whether http:// actually work using https://
+// If user enter -h, the program prints out the usage of this tool
+// If user enter -r, the program will run recursively all files in the give path
+let sFlag = false;
+let ignore = false;
+let ignoredLink = [];
+
+
+let rFlag = false;
+for (let i = 2; i < process.argv.length; i++) {
+    let arg = process.argv[i];
+    if (arg.startsWith('-')) {
+        if (arg.includes("s")) {
+            sFlag = true;
+        }
+        if (arg.includes("h")) {
+            CliHelpMsg();
+        }
+
+        if (arg.includes("v")) {
+            console.log("Tool Name: url-fi")
+            console.log("Version: 0.1")
+        }
+
+        if (arg.includes("i")) {
+            ignore = true;
+        }
+        if (arg.includes("r")) {
+            rFlag = true;
+            findFilesInDir(process.argv[3])
+        }
+    }
+
+    if (arg.match(goodRegex)) {
+        statusFlag = 2;
+    } else if (arg.match(badRegex)) {
+        statusFlag = 3;
+    } else if (arg.match(allRegex)) {
+        statusFlag = 1;
+    }
+
+}
+
+
+// If the user enters any arguments/filenames, starts process.
+// --version or -v: prints tool name & version
+// filename: checks broken links
+
+if (!rFlag) {
+    for (let i = 2; i < process.argv.length; i++) {
+        let arg = process.argv[i];
+        if (ignore) {
+            arg = process.argv[++i];
+            data = fs.readFileSync(arg, 'utf8');
+            array = data.split("\n");
+            string = "";
+            for (let i = 0; i < array.length; i++) {
+
+                if (!array[i].trim().startsWith("#")) {
+                    string += array[i];
+                }
+            }
+            ignoredLink = string.match(linkRegex);
+            if (ignoredLink == null) {
+                console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
+                process.exitCode = 1;
+                process.exit(1);
+            }
+            ignore = false;
+            i++;
+        }
+
+        arg = process.argv[i];
+
+        if (!arg.startsWith("-")) {
+            fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
+                if (err) {
+                    console.log(colors.red(err));
+                    process.exitCode = 1;
+                    process.exit(1);
+                }
+                let links = data.match(linkRegex);
+                //ignore the links
+                links = links.filter(val => !ignoredLink.includes(val));
+                for (let i = 0; i < links.length; i++) {
+                    let link = links[i];
+                    if (link.startsWith("https://")) {
+                        checkUrl(link);
+                    } else {
+                        checkUrl(link);
+                        if (sFlag) {
+                            checkUrl(link.replace(/^http/, "https"));
+                        }
+                    }
+                }
+            })
+        }
     }
 }
 
