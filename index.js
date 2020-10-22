@@ -9,6 +9,10 @@ const goodRegex = /\-\-good/;
 const badRegex = /\-\-bad/;
 const allRegex = /\-\-all/;
 let statusFlag = 1; // 1: all, 2: good, 3: bad
+let sFlag = false;
+let rFlag = false;
+let ignore = false;
+let ignoredLink = [];
 
 process.exitCode = 0 // 0: all links are good & no error, 1: at least one link is bad or error
 
@@ -72,12 +76,6 @@ if (process.argv.length === 2) {
 // If user enter -s, the program checks whether http:// actually work using https://
 // If user enter -h, the program prints out the usage of this tool
 // If user enter -r, the program will run recursively all files in the give path
-let sFlag = false;
-let ignore = false;
-let ignoredLink = [];
-
-
-let rFlag = false;
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (arg.startsWith('-')) {
