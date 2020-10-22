@@ -1,27 +1,43 @@
 #!/usr/bin/env node
 
+// moduels
 const request = require("request");
 const path = require("path");
 const colors = require("colors");
 const fs = require("fs");
+
+// regexes
 const linkRegex = /(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
 const goodRegex = /\-\-good/;
 const badRegex = /\-\-bad/;
 const allRegex = /\-\-all/;
+
+// flags
 let statusFlag = 1; // 1: all, 2: good, 3: bad
+let sFlag = false; // check -s argument.  true: -s exists, false: -s not exist
+let rFlag = false; // check -r argument. true: -r exists, false: -r not exist
+let iFlag = false; // check -i argument. true: -i exists, false: -i not exist
+
+// others
+let ignoredLink = [];
 
 process.exitCode = 0 // 0: all links are good & no error, 1: at least one link is bad or error
 
+// print out the help message of the tool
 function CliHelpMsg() {
     console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
     console.log("-v : print the tool name and its version")
     console.log("-s : check whether http:// work using https://")
     console.log("-h : display the usage of this tool")
     console.log("-r : do the test for all files in the following directory")
+    console.log("-i : ignore the links on the ignore file. The ignore file should have at lease one url link")
     console.log("\n----------------------------------------------------------")
     console.log("-------------------------Example--------------------------\n")
+    console.log("Usage : url-fi -v [FILENAME]")
     console.log("Usage : url-fi -s [FILENAME]")
+    console.log("Usage : url-fi -h [FILENAME]")
     console.log("Usage : url-fi -r [DIRECTORY_PATH]")
+    console.log("Usage : url-fi -i [IGNORE_URL_LIST_FILE] [FILENAME]")
     console.log("\n----------------------------------------------------------")
     console.log("----------------------------------------------------------")
 }
@@ -72,12 +88,6 @@ if (process.argv.length === 2) {
 // If user enter -s, the program checks whether http:// actually work using https://
 // If user enter -h, the program prints out the usage of this tool
 // If user enter -r, the program will run recursively all files in the give path
-let sFlag = false;
-let ignore = false;
-let ignoredLink = [];
-
-
-let rFlag = false;
 for (let i = 2; i < process.argv.length; i++) {
     let arg = process.argv[i];
     if (arg.startsWith('-')) {
@@ -94,7 +104,7 @@ for (let i = 2; i < process.argv.length; i++) {
         }
 
         if (arg.includes("i")) {
-            ignore = true;
+            iFlag = true;
         }
         if (arg.includes("r")) {
             rFlag = true;
@@ -116,11 +126,10 @@ for (let i = 2; i < process.argv.length; i++) {
 // If the user enters any arguments/filenames, starts process.
 // --version or -v: prints tool name & version
 // filename: checks broken links
-
 if (!rFlag) {
     for (let i = 2; i < process.argv.length; i++) {
         let arg = process.argv[i];
-        if (ignore) {
+        if (iFlag) {
             arg = process.argv[++i];
             data = fs.readFileSync(arg, 'utf8');
             array = data.split("\n");
@@ -134,10 +143,9 @@ if (!rFlag) {
             ignoredLink = string.match(linkRegex);
             if (ignoredLink == null) {
                 console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
-                process.exitCode = 1;
                 process.exit(1);
             }
-            ignore = false;
+            iFlag = false;
             i++;
         }
 
@@ -147,7 +155,6 @@ if (!rFlag) {
             fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
                 if (err) {
                     console.log(colors.red(err));
-                    process.exitCode = 1;
                     process.exit(1);
                 }
                 let links = data.match(linkRegex);
