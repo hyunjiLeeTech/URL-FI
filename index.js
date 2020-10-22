@@ -139,7 +139,6 @@ if (!rFlag) {
             ignoredLink = string.match(linkRegex);
             if (ignoredLink == null) {
                 console.log(colors.red("The ignore file is invalid.  It doesn't use http:// or https://"));
-                process.exitCode = 1;
                 process.exit(1);
             }
             iFlag = false;
@@ -152,7 +151,6 @@ if (!rFlag) {
             fs.readFile(path.normalize(arg), 'utf8', function (err, data) {
                 if (err) {
                     console.log(colors.red(err));
-                    process.exitCode = 1;
                     process.exit(1);
                 }
                 let links = data.match(linkRegex);
