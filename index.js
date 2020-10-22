@@ -1,21 +1,29 @@
 #!/usr/bin/env node
 
+// moduels
 const request = require("request");
 const path = require("path");
 const colors = require("colors");
 const fs = require("fs");
+
+// regexes
 const linkRegex = /(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
 const goodRegex = /\-\-good/;
 const badRegex = /\-\-bad/;
 const allRegex = /\-\-all/;
+
+// flags
 let statusFlag = 1; // 1: all, 2: good, 3: bad
-let sFlag = false;
-let rFlag = false;
-let ignore = false;
+let sFlag = false; // check -s argument.  true: -s exists, false: -s not exist
+let rFlag = false; // check -r argument. true: -r exists, false: -r not exist
+let ignore = false; // check -i argument. true: -i exists, false: -i not exist
+
+// others
 let ignoredLink = [];
 
 process.exitCode = 0 // 0: all links are good & no error, 1: at least one link is bad or error
 
+// print out the help message of the tool
 function CliHelpMsg() {
     console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
     console.log("-v : print the tool name and its version")
@@ -114,7 +122,6 @@ for (let i = 2; i < process.argv.length; i++) {
 // If the user enters any arguments/filenames, starts process.
 // --version or -v: prints tool name & version
 // filename: checks broken links
-
 if (!rFlag) {
     for (let i = 2; i < process.argv.length; i++) {
         let arg = process.argv[i];
