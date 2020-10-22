@@ -16,7 +16,7 @@ const allRegex = /\-\-all/;
 let statusFlag = 1; // 1: all, 2: good, 3: bad
 let sFlag = false; // check -s argument.  true: -s exists, false: -s not exist
 let rFlag = false; // check -r argument. true: -r exists, false: -r not exist
-let ignore = false; // check -i argument. true: -i exists, false: -i not exist
+let iFlag = false; // check -i argument. true: -i exists, false: -i not exist
 
 // others
 let ignoredLink = [];
@@ -100,7 +100,7 @@ for (let i = 2; i < process.argv.length; i++) {
         }
 
         if (arg.includes("i")) {
-            ignore = true;
+            iFlag = true;
         }
         if (arg.includes("r")) {
             rFlag = true;
@@ -125,7 +125,7 @@ for (let i = 2; i < process.argv.length; i++) {
 if (!rFlag) {
     for (let i = 2; i < process.argv.length; i++) {
         let arg = process.argv[i];
-        if (ignore) {
+        if (iFlag) {
             arg = process.argv[++i];
             data = fs.readFileSync(arg, 'utf8');
             array = data.split("\n");
@@ -142,7 +142,7 @@ if (!rFlag) {
                 process.exitCode = 1;
                 process.exit(1);
             }
-            ignore = false;
+            iFlag = false;
             i++;
         }
 
