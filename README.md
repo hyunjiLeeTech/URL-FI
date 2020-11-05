@@ -31,6 +31,9 @@ For example, if you write 'https://www.google.com" in the text file (ignore-urls
 ### Checks all the files in a directory path (Argument -r)
 When you enter -r argument, this tool recursively map test all the files in the directory path (You must enter path not file name).
 
+### Check links in Telescope posts (Argument -t)
+When you enter -t argument, this tool checks the recent 10 posts in Telescopes. The post links are from local server (localhost:3000/posts)
+
 ### Helping option
 When you enter -h argument, this tool prints out the usage of this tool.
 
