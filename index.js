@@ -27,63 +27,6 @@ let ignoredLink = [];
 
 process.exitCode = 0 // 0: all links are good & no error, 1: at least one link is bad or error
 
-// print out the help message of the tool
-function CliHelpMsg() {
-    console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
-    console.log("-v : print the tool name and its version")
-    console.log("-s : check whether http:// work using https://")
-    console.log("-h : display the usage of this tool")
-    console.log("-r : do the test for all files in the following directory")
-    console.log("-i : ignore the links on the ignore file. The ignore file should have at lease one url link")
-    console.log("-t : check the website named Telescope's recent 10 post links")
-    console.log("\n----------------------------------------------------------")
-    console.log("-------------------------Example--------------------------\n")
-    console.log("Usage : url-fi -v [FILENAME]")
-    console.log("Usage : url-fi -s [FILENAME]")
-    console.log("Usage : url-fi -h [FILENAME]")
-    console.log("Usage : url-fi -r [DIRECTORY_PATH]")
-    console.log("Usage : url-fi -i [IGNORE_URL_LIST_FILE] [FILENAME]")
-    console.log("Usage : url-fi -t")
-    console.log("\n----------------------------------------------------------")
-    console.log("----------------------------------------------------------")
-}
-
-// -r option detail
-// Find all the files in the path
-// Map through the files and find wrong URL
-function findFilesInDir(path) {
-    try {
-        let files = fs.readdirSync(path, { encoding: "utf-8", withFileTypes: true })
-
-        files = files.filter(file => {
-            return !file.isDirectory() && !file.name.endsWith('.js')
-        });
-
-        files.map(file => {
-            let content = 0;
-            try {
-                content = fs.readFileSync(`${path}/${file.name}`, { encoding: "utf-8" })
-            } catch (error) {
-                console.log(colors.yellow(`${error}`));
-            }
-            let links = content.match(linkRegex);
-            for (let i = 0; links && i < links.length; i++) {
-                let link = links[i];
-                if (link.startsWith("https://")) {
-                    checkUrl(link);
-                } else {
-                    checkUrl(link);
-                    if (sFlag) {
-                        checkUrl(link.replace(/^http/, "https"));
-                    }
-                }
-            }
-        })
-    } catch (error) {
-        console.log(colors.yellow(`${error}`));
-    }
-}
-
 // If the user doesn't enter any arguments/filenames, it exits the process
 if (process.argv.length === 2) {
     CliHelpMsg();
@@ -217,6 +160,7 @@ function checkUrl(url) {
     })
 }
 
+// Check telescope's recent 10 posts link
 function checkTelescopePosts() {
     request(
         telescopeUrl
@@ -231,4 +175,61 @@ function checkTelescopePosts() {
                 }
             }
         })
+}
+
+// print out the help message of the tool
+function CliHelpMsg() {
+    console.log("Usage : url-fi [argument(s)] [FILENAME/DIR_PATH]")
+    console.log("-v : print the tool name and its version")
+    console.log("-s : check whether http:// work using https://")
+    console.log("-h : display the usage of this tool")
+    console.log("-r : do the test for all files in the following directory")
+    console.log("-i : ignore the links on the ignore file. The ignore file should have at lease one url link")
+    console.log("-t : check the website named Telescope's recent 10 post links")
+    console.log("\n----------------------------------------------------------")
+    console.log("-------------------------Example--------------------------\n")
+    console.log("Usage : url-fi -v [FILENAME]")
+    console.log("Usage : url-fi -s [FILENAME]")
+    console.log("Usage : url-fi -h [FILENAME]")
+    console.log("Usage : url-fi -r [DIRECTORY_PATH]")
+    console.log("Usage : url-fi -i [IGNORE_URL_LIST_FILE] [FILENAME]")
+    console.log("Usage : url-fi -t")
+    console.log("\n----------------------------------------------------------")
+    console.log("----------------------------------------------------------")
+}
+
+// -r option detail
+// Find all the files in the path
+// Map through the files and find wrong URL
+function findFilesInDir(path) {
+    try {
+        let files = fs.readdirSync(path, { encoding: "utf-8", withFileTypes: true })
+
+        files = files.filter(file => {
+            return !file.isDirectory() && !file.name.endsWith('.js')
+        });
+
+        files.map(file => {
+            let content = 0;
+            try {
+                content = fs.readFileSync(`${path}/${file.name}`, { encoding: "utf-8" })
+            } catch (error) {
+                console.log(colors.yellow(`${error}`));
+            }
+            let links = content.match(linkRegex);
+            for (let i = 0; links && i < links.length; i++) {
+                let link = links[i];
+                if (link.startsWith("https://")) {
+                    checkUrl(link);
+                } else {
+                    checkUrl(link);
+                    if (sFlag) {
+                        checkUrl(link.replace(/^http/, "https"));
+                    }
+                }
+            }
+        })
+    } catch (error) {
+        console.log(colors.yellow(`${error}`));
+    }
 }
