@@ -17,9 +17,11 @@ const telescopeUrl = "http://localhost:3000/posts";
 
 // flags
 let statusFlag = 1; // 1: all, 2: good, 3: bad
-let sFlag = false; // check -s argument.  true: -s exists, false: -s not exist
-let rFlag = false; // check -r argument. true: -r exists, false: -r not exist
-let iFlag = false; // check -i argument. true: -i exists, false: -i not exist
+
+// argument flags. true: exists, false: not exists
+let sFlag = false;
+let rFlag = false;
+let iFlag = false;
 let tFlag = false;
 
 // others
