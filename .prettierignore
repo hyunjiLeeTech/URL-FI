@@ -1,0 +1,9 @@
+build
+./node_modules
+./test
+.gitignore
+ignore.txt
+test.html
+test.txt
+LICENSE
+.prettierignore
