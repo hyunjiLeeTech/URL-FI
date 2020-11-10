@@ -5,7 +5,10 @@
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write *",
+    "prettier-check": "prettier --check *",
+    "eslint": "eslint --ignore-path .eslintignore *"
   },
   "repository": {
     "type": "git",
@@ -22,5 +25,9 @@
     "colors": "^1.4.0",
     "path": "^0.12.7",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "prettier": "2.1.2"
   }
 }

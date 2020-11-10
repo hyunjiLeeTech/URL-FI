@@ -1,0 +1,10 @@
+# Ignore artifacts:
+./node_modules
+./test
+.gitignore
+.prettierignore
+ignore.txt
+LICENSE
+test.html
+test.txt
+.eslintignore

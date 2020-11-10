@@ -1,0 +1,11 @@
+./node_modules
+./test
+ignore.txt
+LICENSE
+test.html
+test.txt
+.eslintrc.json
+CONTRIBUTING.md
+README.md
+package-lock.json
+package.json
