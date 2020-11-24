@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest --detectOpenHandles --coverage",
     "prettier": "prettier --write *",
     "prettier-check": "prettier --check *",
     "eslint": "eslint --ignore-path .eslintignore *"
