@@ -19,7 +19,7 @@ This command-line tool use 'Prettier' formatter for formatting. The detailed doc
 
 ## How to run Linter
 
-This command-lint tool use 'Linter' to avoid code patterns lead to bugs. The detailed document about the Linter is the following: [Linter](https://eslint.org/)
+This command-line tool use 'Linter' to avoid code patterns lead to bugs. The detailed document about the Linter is the following: [Linter](https://eslint.org/)
 
 1. Open the terminal
 2. Enter `npm run eslint`
@@ -29,3 +29,12 @@ This command-lint tool use 'Linter' to avoid code patterns lead to bugs. The det
 ## IDE Integration
 
 When you try to contribute to this project, please check whether the formatter (Prettier) and Linter is automatically working when you save the file. If it does not work, please install 'Prettier' extension.
+
+## How to run test
+
+This tool uses 'Jest' test framework to check whether the functions works properly or not. At this moment, there are three functions (checkUrl(), cliHelpMsg(), versionInf()) to be tested.
+
+1. Open the terminal
+2. Enter `npm run test`
+
+It will generate the coverage report including what lines are missing to test. It will be graceful if the coverage percentage can be higher than 80%. The coverage report will be located in the folder named `coverage`.
