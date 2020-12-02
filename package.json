@@ -1,9 +1,11 @@
 {
-  "name": "url-fi",
+  "name": "hyunji-link-checker",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a command-line tool for finding and reporting dead links (e.g., broken URLs) in a file. Users might use this tool to help locate broken URLs in an HTML page, text file, and so on. This tool can handle multiple files at the same time. You can provide path\r instead of file name with option -r.",
   "main": "index.js",
-  "bin": "./index.js",
+  "bin": {
+    "url-fi": "index.js"
+  },
   "scripts": {
     "test": "jest --detectOpenHandles --coverage",
     "prettier": "prettier --write *",
@@ -15,7 +17,7 @@
     "url": "git+https://github.com/hyunjiLeeTech/URL-FI.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hyunji Jane Lee",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hyunjiLeeTech/URL-FI/issues"
@@ -30,5 +32,9 @@
     "eslint": "^7.13.0",
     "jest": "^26.6.3",
     "prettier": "2.1.2"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }

@@ -48,3 +48,7 @@ When you enter -h argument, this tool prints out the usage of this tool.
 <br/>2. -s: Running the tool with the s argument checks whether http:// urls actually work using https://
 <br/>3. -h: Running the tool with the h argument prints the usage of the tool
 <br/>4. -r: Runnting the tool with the r argument check all the files in the given path and find wrong URL
+
+# How to install url-fi package
+
+This url-fi command-line tool is published to npm. If you want to install this package, enter `npm i hyunji-link-checker` on the command line.
