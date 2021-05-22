@@ -1,23 +1,15 @@
 <a
     href="https://wiki.cdot.senecacollege.ca/w/api.php?action=rsd">https://wiki.cdot.senecacollege.ca/w/api.php?action=rsd</a>
-https://wiki.cdot.senecacollege.ca/w/api.php?action=rsd
-http://zenit.senecac.on.ca/~chris.tyler/planet/
-http://www.wordpress.com
-http://en.wikipedia.org/wiki/RSS_(file_format)
-http://en.wikipedia.org/wiki/RSS_(file_format)
-http://en.wikipedia.org/wiki/Hackergotchi
-http://s-aleinikov.blog.ca/feed/atom/posts/
-http://ejtorre.blog.ca/feed/rss2/posts/
-http://rickeyre.ca/open-source-feed.xml
-http://tea.cesaroliveira.net/archives/tag/seneca/feed
-http://blog.marcussaad.com/?feed=rss2&amp;lang=en
-http://matthewtorrance.com/category/osd/feed/
-http://hesam-chobanlou.com/feed/atom.php
-http://zadkielm.blogspot.com/feeds/posts/default/-/open%20source
-http://travisrawn.blogspot.com/feeds/posts/default
-http://dev-blog.zerogin.com/category/opensource/feed/
-http://peter.sykokillers.com/category/open-source/feed/
-http://http://stephenruthland.wordpress.com/feed/
-http://main.justinflowers.ca/web/wordpress/?cat=2&amp;feed=rss2
-http://http://hhashimi3.wordpress.com/feed/
-https://dps909.defilippis.ca/index.php/feed/
+<a href="http://zenit.senecac.on.ca/~chris.tyler/planet/">http://zenit.senecac.on.ca/~chris.tyler/planet/</a>
+<a href="http://www.wordpress.com">http://www.wordpress.com</a>
+<a href="http://en.wikipedia.org/wiki/RSS_(file_format)">http://en.wikipedia.org/wiki/RSS_(file_format)</a>
+<a href="http://en.wikipedia.org/wiki/RSS_(file_format)">http://en.wikipedia.org/wiki/RSS_(file_format)</a>
+<a href="http://en.wikipedia.org/wiki/Hackergotchi">http://en.wikipedia.org/wiki/Hackergotchi</a>
+<a href="http://s-aleinikov.blog.ca/feed/atom/posts/">http://s-aleinikov.blog.ca/feed/atom/posts/</a>
+<a href="http://ejtorre.blog.ca/feed/rss2/posts/">http://ejtorre.blog.ca/feed/rss2/posts/</a>
+<a href="http://rickeyre.ca/open-source-feed.xml">http://rickeyre.ca/open-source-feed.xml</a>
+<a
+    href="http://tea.cesaroliveira.net/archives/tag/seneca/feed">http://tea.cesaroliveira.net/archives/tag/seneca/feed</a>
+<a href="http://blog.marcussaad.com/?feed=rss2&amp;lang=en">http://blog.marcussaad.com/?feed=rss2&amp;lang=en</a>
+<a href="http://matthewtorrance.com/category/osd/feed/">http://matthewtorrance.com/category/osd/feed/</a>
+<a href="http://hesam-chobanlou.com/feed/atom.php">http://hesam-chobanlou.com/feed/atom.php</a>
